@@ -11,17 +11,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
+var club_1 = require("./club");
 var club_service_1 = require("./club.service");
 var ClubsComponent = (function () {
     function ClubsComponent(clubService, router) {
         this.clubService = clubService;
         this.router = router;
     }
-    ClubsComponent.prototype.getHeroes = function () {
-        this.clubs = this.clubService.getClubs();
+    ClubsComponent.prototype.getClubs = function () {
+        var _this = this;
+        this.allClubs = new Array;
+        this.clubService.getClubs()
+            .subscribe(function (clubs) {
+            clubs.forEach(function (element) {
+                _this.allClubs.push(new club_1.Club(element.$key, element.about, element.image));
+            });
+        });
     };
     ClubsComponent.prototype.ngOnInit = function () {
-        this.getHeroes();
+        this.getClubs();
     };
     ClubsComponent.prototype.gotoDetail = function (club) {
         this.router.navigate(['/about', club.name]);
@@ -31,7 +39,7 @@ var ClubsComponent = (function () {
 ClubsComponent = __decorate([
     core_1.Component({
         selector: 'clubs-app',
-        template: "\n  <!--angular2-material card and button-->\n    <div class=\"clubs\">\n      <div *ngFor=\"let club of clubs\" (click)=\"gotoDetail(club)\" style=\"margin-top: 5px\">\n        <md-card>\n          <md-card-title-group>\n              <img md-card-sm-image src={{club.image}}>\n              <md-card-title>{{club.name}}</md-card-title>\n          </md-card-title-group>\n        </md-card>\n      </div>\n    </div>\n  ",
+        template: "\n  <!--angular2-material card and button-->\n    <div class=\"clubs\">\n      <div *ngFor=\"let club of allClubs\" (click)=\"gotoDetail(club)\" style=\"margin-top: 5px\">\n        <md-card>\n          <md-card-title-group>\n              <img md-card-sm-image src={{club.image}}>\n              <md-card-title>{{club.name}}</md-card-title>\n          </md-card-title-group>\n        </md-card>\n      </div>\n    </div>\n  ",
         providers: [club_service_1.ClubService]
     }),
     __metadata("design:paramtypes", [club_service_1.ClubService,

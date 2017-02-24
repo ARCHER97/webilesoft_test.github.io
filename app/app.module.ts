@@ -14,7 +14,12 @@ import { MdCardModule }         from '@angular2-material/card';
 import { MdButtonModule }         from '@angular2-material/button';
 import { MdInputModule }         from '@angular2-material/input';
 
+import { AngularFireModule } from 'angularfire2';
+import { firebaseConfig } from './firebase.config';
+
 import { ClubService }         from './club.service';
+
+
 
 @NgModule({
   imports:      [ 
@@ -23,7 +28,8 @@ import { ClubService }         from './club.service';
     AppRoutingModule,
     MdCardModule,
     MdButtonModule,
-    MdInputModule 
+    MdInputModule,
+    AngularFireModule.initializeApp(firebaseConfig) 
   ],
   declarations: [ 
     AppComponent,

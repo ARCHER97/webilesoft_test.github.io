@@ -33,7 +33,7 @@ export class AboutComponent implements OnInit{
     private location: Location
   ){}
   ngOnInit(): void {
-     this.club = this.clubService.getClub(this.route.snapshot.params['name']);
+     this.club = this.clubService.getClub(this.route.snapshot.params['name'])
   }
   goBack(): void {
     this.location.back();

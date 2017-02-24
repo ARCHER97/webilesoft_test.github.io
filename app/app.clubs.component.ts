@@ -8,7 +8,7 @@ import { ClubService } from './club.service';
   template: `
   <!--angular2-material card and button-->
     <div class="clubs">
-      <div *ngFor="let club of clubs" (click)="gotoDetail(club)" style="margin-top: 5px">
+      <div *ngFor="let club of allClubs" (click)="gotoDetail(club)" style="margin-top: 5px">
         <md-card>
           <md-card-title-group>
               <img md-card-sm-image src={{club.image}}>
@@ -21,16 +21,22 @@ import { ClubService } from './club.service';
   providers: [ClubService]
 })
 export class ClubsComponent implements OnInit{
-  clubs: Club[];
+  allClubs: Array<Club>;
   constructor(
-    private clubService: ClubService,
+    private clubService: ClubService, 
     private router: Router
   ){}
-  getHeroes(): void {
-    this.clubs = this.clubService.getClubs();
+  getClubs(): void {
+    this.allClubs = new Array;
+    this.clubService.getClubs()
+      .subscribe(clubs => {
+          clubs.forEach(element=>{
+            this.allClubs.push(new Club(element.$key,element.about,element.image));
+          })
+      });
   }
   ngOnInit(): void {
-    this.getHeroes();
+    this.getClubs();
   }
   gotoDetail(club: Club): void {
     this.router.navigate(['/about', club.name]);

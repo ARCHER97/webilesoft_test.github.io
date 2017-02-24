@@ -25,12 +25,10 @@ import { Club } from './club';
   `
 })
 export class CreatingClubComponent {
-  club: Club = {
-    name: '',
-    about: '',
-    image: ''
-  };
-  constructor(){ }
+  club: Club;
+  constructor(){
+    this.club = new Club('','','');
+  }
   createClub(){
     console.log(this.club.name+" "+this.club.about+" "+this.club.image);
   }

@@ -1,7 +1,9 @@
 export class Club {
-  name: string;
-  about: string;
-  image: string;
+  constructor(
+    public name: string,
+    public about: string,
+    public image: string
+  ){  }
 }
 
 export const CLUBS: Club[] = [

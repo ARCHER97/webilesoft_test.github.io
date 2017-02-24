@@ -10,13 +10,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
+var club_1 = require("./club");
 var CreatingClubComponent = (function () {
     function CreatingClubComponent() {
-        this.club = {
-            name: '',
-            about: '',
-            image: ''
-        };
+        this.club = new club_1.Club('', '', '');
     }
     CreatingClubComponent.prototype.createClub = function () {
         console.log(this.club.name + " " + this.club.about + " " + this.club.image);

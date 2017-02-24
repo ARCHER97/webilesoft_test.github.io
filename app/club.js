@@ -1,7 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Club = (function () {
-    function Club() {
+    function Club(name, about, image) {
+        this.name = name;
+        this.about = about;
+        this.image = image;
     }
     return Club;
 }());

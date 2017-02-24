@@ -17,6 +17,8 @@ var app_creatingclub_component_1 = require("./app.creatingclub.component");
 var card_1 = require("@angular2-material/card");
 var button_1 = require("@angular2-material/button");
 var input_1 = require("@angular2-material/input");
+var angularfire2_1 = require("angularfire2");
+var firebase_config_1 = require("./firebase.config");
 var club_service_1 = require("./club.service");
 var AppModule = (function () {
     function AppModule() {
@@ -31,7 +33,8 @@ AppModule = __decorate([
             app_routing_module_1.AppRoutingModule,
             card_1.MdCardModule,
             button_1.MdButtonModule,
-            input_1.MdInputModule
+            input_1.MdInputModule,
+            angularfire2_1.AngularFireModule.initializeApp(firebase_config_1.firebaseConfig)
         ],
         declarations: [
             app_component_1.AppComponent,
