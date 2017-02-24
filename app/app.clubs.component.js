@@ -31,7 +31,7 @@ var ClubsComponent = (function () {
 ClubsComponent = __decorate([
     core_1.Component({
         selector: 'clubs-app',
-        template: "\n  <!--angular2-material card and button-->\n    <ul class=\"clubs\">\n      <li *ngFor=\"let club of clubs\" (click)=\"gotoDetail(club)\">\n        <md-card>\n          <md-card-title-group>\n              <img md-card-sm-image src={{club.image}}>\n              <md-card-title>{{club.name}}</md-card-title>\n          </md-card-title-group>\n        </md-card>\n      </li>\n    </ul>\n  ",
+        template: "\n  <!--angular2-material card and button-->\n    <div class=\"clubs\">\n      <div *ngFor=\"let club of clubs\" (click)=\"gotoDetail(club)\" style=\"margin-top: 5px\">\n        <md-card>\n          <md-card-title-group>\n              <img md-card-sm-image src={{club.image}}>\n              <md-card-title>{{club.name}}</md-card-title>\n          </md-card-title-group>\n        </md-card>\n      </div>\n    </div>\n  ",
         providers: [club_service_1.ClubService]
     }),
     __metadata("design:paramtypes", [club_service_1.ClubService,

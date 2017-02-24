@@ -9,14 +9,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var AppComponent = (function () {
     function AppComponent() {
-        this.title = 'Clubs';
     }
     return AppComponent;
 }());
 AppComponent = __decorate([
     core_1.Component({
         selector: 'my-app',
-        template: "\n    <h1>{{title}}</h1>\n    <!--bootstrap navbar-->\n    <nav>\n      <a routerLink=\"/clubs\">Clabs</a>\n      <a routerLink=\"/creatingclub\">Creating club</a>\n    </nav>\n    <!--set widtch 8-->\n    <router-outlet></router-outlet>\n  "
+        template: "\n    <nav class=\"navbar navbar-inverse\">\n      <div class=\"container-fluid\">\n        <ul class=\"nav navbar-nav\">\n          <li><a routerLink=\"/clubs\">Clabs</a></li>\n          <li><a routerLink=\"/creatingclub\">Creating club</a></li>\n        </ul>\n      </div>\n    </nav>\n    <div class=\"col-sm-1\"></div>\n    <div class=\"col-sm-10\">\n      <router-outlet></router-outlet>\n    </div>\n    <div class=\"col-sm-1\"></div>\n  "
     })
 ], AppComponent);
 exports.AppComponent = AppComponent;

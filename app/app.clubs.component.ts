@@ -7,16 +7,16 @@ import { ClubService } from './club.service';
   selector: 'clubs-app',
   template: `
   <!--angular2-material card and button-->
-    <ul class="clubs">
-      <li *ngFor="let club of clubs" (click)="gotoDetail(club)">
+    <div class="clubs">
+      <div *ngFor="let club of clubs" (click)="gotoDetail(club)" style="margin-top: 5px">
         <md-card>
           <md-card-title-group>
               <img md-card-sm-image src={{club.image}}>
               <md-card-title>{{club.name}}</md-card-title>
           </md-card-title-group>
         </md-card>
-      </li>
-    </ul>
+      </div>
+    </div>
   `,
   providers: [ClubService]
 })

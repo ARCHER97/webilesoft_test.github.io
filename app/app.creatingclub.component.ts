@@ -6,6 +6,9 @@ import { Club } from './club';
   template: `
     <md-card class="demo-card demo-basic">
       <md-card-content>
+        <div>
+          Creating club
+        </div>
         <form>
           <md-input  placeholder="Name of club" [(ngModel)]="club.name" 
                 [ngModelOptions]="{standalone: true}" style="width: 100%" ></md-input>
