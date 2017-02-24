@@ -8,7 +8,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
 var CreatingClubComponent = (function () {
     function CreatingClubComponent() {
         this.club = {
@@ -20,14 +21,14 @@ var CreatingClubComponent = (function () {
     CreatingClubComponent.prototype.createClub = function () {
         console.log(this.club.name + " " + this.club.about + " " + this.club.image);
     };
-    CreatingClubComponent = __decorate([
-        core_1.Component({
-            selector: 'creating-club-app',
-            template: "\n    <h2>{{club.name}} details!</h2>\n    <div>\n      <label>name: </label>\n      <input [(ngModel)]=\"club.name\" placeholder=\"name\">\n    </div>\n    <div>\n      <label>name: </label>\n      <input [(ngModel)]=\"club.about\" placeholder=\"about\">\n    </div>\n    <div>\n      <label>image: </label>\n      <input [(ngModel)]=\"club.image\" placeholder=\"image\">\n    </div>\n    <button (click)=\"createClub()\">Create</button>\n  "
-        }), 
-        __metadata('design:paramtypes', [])
-    ], CreatingClubComponent);
     return CreatingClubComponent;
 }());
+CreatingClubComponent = __decorate([
+    core_1.Component({
+        selector: 'creating-club-app',
+        template: "\n    <md-card class=\"demo-card demo-basic\">\n      <md-card-content>\n        <form>\n          <md-input  placeholder=\"Name of club\" [(ngModel)]=\"club.name\" \n                [ngModelOptions]=\"{standalone: true}\" style=\"width: 100%\" ></md-input>\n          <md-input  placeholder=\"About\" [(ngModel)]=\"club.about\"\n                [ngModelOptions]=\"{standalone: true}\"  style=\"width:  100%\"></md-input>\n          <md-input  placeholder=\"Image\" [(ngModel)]=\"club.image\" \n                [ngModelOptions]=\"{standalone: true}\" style=\"width:  100%\"></md-input>\n        </form>\n      </md-card-content>\n      <md-card-actions>\n        <button md-button (click)=\"createClub()\">Create</button>\n      </md-card-actions>\n    </md-card>\n  "
+    }),
+    __metadata("design:paramtypes", [])
+], CreatingClubComponent);
 exports.CreatingClubComponent = CreatingClubComponent;
 //# sourceMappingURL=app.creatingclub.component.js.map

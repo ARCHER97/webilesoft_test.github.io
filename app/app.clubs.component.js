@@ -8,9 +8,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
-var club_service_1 = require('./club.service');
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
+var club_service_1 = require("./club.service");
 var ClubsComponent = (function () {
     function ClubsComponent(clubService, router) {
         this.clubService = clubService;
@@ -25,15 +26,16 @@ var ClubsComponent = (function () {
     ClubsComponent.prototype.gotoDetail = function (club) {
         this.router.navigate(['/about', club.name]);
     };
-    ClubsComponent = __decorate([
-        core_1.Component({
-            selector: 'clubs-app',
-            template: "\n    <ul class=\"clubs\">\n      <li *ngFor=\"let club of clubs\" (click)=\"gotoDetail(club)\">\n        <span class=\"badge\">{{club.name}}</span> {{club.image}}\n      </li>\n    </ul>\n  ",
-            providers: [club_service_1.ClubService]
-        }), 
-        __metadata('design:paramtypes', [club_service_1.ClubService, router_1.Router])
-    ], ClubsComponent);
     return ClubsComponent;
 }());
+ClubsComponent = __decorate([
+    core_1.Component({
+        selector: 'clubs-app',
+        template: "\n  <!--angular2-material card and button-->\n    <ul class=\"clubs\">\n      <li *ngFor=\"let club of clubs\" (click)=\"gotoDetail(club)\">\n        <md-card>\n          <md-card-title-group>\n              <img md-card-sm-image src={{club.image}}>\n              <md-card-title>{{club.name}}</md-card-title>\n          </md-card-title-group>\n        </md-card>\n      </li>\n    </ul>\n  ",
+        providers: [club_service_1.ClubService]
+    }),
+    __metadata("design:paramtypes", [club_service_1.ClubService,
+        router_1.Router])
+], ClubsComponent);
 exports.ClubsComponent = ClubsComponent;
 //# sourceMappingURL=app.clubs.component.js.map

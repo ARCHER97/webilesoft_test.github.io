@@ -9,12 +9,20 @@ import { Club } from './club';
 @Component({
   selector: 'about-app',
   template: `
-    <div *ngIf="club">
-      <h2>{{club.name}}</h2>
-      <div><label>about: </label>{{club.about}}</div>
-      <div><label>image: </label>{{club.image}}</div>
+    <!--angular2-material card and button-->
+    <div *ngIf="club" class="">
+      <md-card>
+        <md-card-header>
+            <md-card-title>{{club.name}}</md-card-title>
+        </md-card-header>
+        <!--<img md-card-image src="path/to/img.png">-->
+        <md-card-content>
+            <pre>{{club.about}}</pre>
+        </md-card-content>
+      </md-card>
     </div>
     <button (click)="goBack()">Back</button>
+    
   `
 })
 export class AboutComponent implements OnInit{

@@ -10,13 +10,20 @@ import { ClubsComponent } from './app.clubs.component';
 import { AboutComponent } from './app.about.component';
 import { CreatingClubComponent } from './app.creatingclub.component';
 
+import { MdCardModule }         from '@angular2-material/card';
+import { MdButtonModule }         from '@angular2-material/button';
+import { MdInputModule }         from '@angular2-material/input';
+
 import { ClubService }         from './club.service';
 
 @NgModule({
   imports:      [ 
     BrowserModule,
     FormsModule,
-    AppRoutingModule 
+    AppRoutingModule,
+    MdCardModule,
+    MdButtonModule,
+    MdInputModule 
   ],
   declarations: [ 
     AppComponent,
