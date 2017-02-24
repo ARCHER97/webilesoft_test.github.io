@@ -19,8 +19,6 @@ var ClubService = (function () {
     function ClubService(af) {
         this.af = af;
     }
-    ClubService.prototype.reloadClubs = function () {
-    };
     ClubService.prototype.getClubs = function () {
         return this.af.database.list('/clubs');
     };
@@ -34,6 +32,12 @@ var ClubService = (function () {
             });
         });
         return club;
+    };
+    ClubService.prototype.createClub = function (name, about, image) {
+        var itemObservable = this.af.database.object('/clubs/' + name);
+        var stringUpdate = { about: about, image: image };
+        console.log(JSON.stringify(stringUpdate));
+        itemObservable.update(stringUpdate);
     };
     return ClubService;
 }());

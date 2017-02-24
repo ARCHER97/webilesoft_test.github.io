@@ -11,12 +11,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var club_1 = require("./club");
+var club_service_1 = require("./club.service");
+var common_1 = require("@angular/common");
 var CreatingClubComponent = (function () {
-    function CreatingClubComponent() {
+    function CreatingClubComponent(clubService, location) {
+        this.clubService = clubService;
+        this.location = location;
         this.club = new club_1.Club('', '', '');
     }
     CreatingClubComponent.prototype.createClub = function () {
         console.log(this.club.name + " " + this.club.about + " " + this.club.image);
+        this.clubService.createClub(this.club.name, this.club.about, this.club.image);
+        this.location.back();
     };
     return CreatingClubComponent;
 }());
@@ -25,7 +31,7 @@ CreatingClubComponent = __decorate([
         selector: 'creating-club-app',
         template: "\n    <md-card class=\"demo-card demo-basic\">\n      <md-card-content>\n        <div>\n          Creating club\n        </div>\n        <form>\n          <md-input  placeholder=\"Name of club\" [(ngModel)]=\"club.name\" \n                [ngModelOptions]=\"{standalone: true}\" style=\"width: 100%\" ></md-input>\n          <md-input  placeholder=\"About\" [(ngModel)]=\"club.about\"\n                [ngModelOptions]=\"{standalone: true}\"  style=\"width:  100%\"></md-input>\n          <md-input  placeholder=\"Image\" [(ngModel)]=\"club.image\" \n                [ngModelOptions]=\"{standalone: true}\" style=\"width:  100%\"></md-input>\n        </form>\n      </md-card-content>\n      <md-card-actions>\n        <button md-button (click)=\"createClub()\">Create</button>\n      </md-card-actions>\n    </md-card>\n  "
     }),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [club_service_1.ClubService, common_1.Location])
 ], CreatingClubComponent);
 exports.CreatingClubComponent = CreatingClubComponent;
 //# sourceMappingURL=app.creatingclub.component.js.map

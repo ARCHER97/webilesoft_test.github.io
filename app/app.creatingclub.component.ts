@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Club } from './club';
+import { ClubService } from './club.service';
+import { Location }    from '@angular/common';
 
 @Component({
   selector: 'creating-club-app',
@@ -26,11 +28,13 @@ import { Club } from './club';
 })
 export class CreatingClubComponent {
   club: Club;
-  constructor(){
+  constructor(private clubService: ClubService, private location: Location){
     this.club = new Club('','','');
   }
   createClub(){
     console.log(this.club.name+" "+this.club.about+" "+this.club.image);
+    this.clubService.createClub(this.club.name,this.club.about,this.club.image);
+    this.location.back();
   }
 }
 

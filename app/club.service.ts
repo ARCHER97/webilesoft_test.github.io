@@ -10,9 +10,6 @@ export class ClubService{
   
   constructor(private af: AngularFire) { }
 
-  reloadClubs(){
-  }
-
   getClubs(): FirebaseListObservable<any[]> {
     return this.af.database.list('/clubs');
   }
@@ -26,5 +23,11 @@ export class ClubService{
           })
       });
     return club;
+  }
+  createClub(name: string, about: string, image: string){
+    const itemObservable = this.af.database.object('/clubs/'+name);
+    var stringUpdate = {about: about, image: image};
+    console.log(JSON.stringify(stringUpdate));
+    itemObservable.update(stringUpdate);
   }
 }
