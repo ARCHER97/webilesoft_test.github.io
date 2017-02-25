@@ -29,7 +29,7 @@ import { ClubService }         from './club.service';
     MdCardModule,
     MdButtonModule,
     MdInputModule,
-    AngularFireModule.initializeApp(firebaseConfig) 
+    AngularFireModule.initializeApp(firebaseConfig)
   ],
   declarations: [ 
     AppComponent,

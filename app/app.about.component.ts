@@ -20,8 +20,11 @@ import { Club } from './club';
             <pre>{{club.about}}</pre>
         </md-card-content>
       </md-card>
+      <md-card-actions>
+        <button md-button (click)="goBack()">Back</button>
+      </md-card-actions>
     </div>
-    <button (click)="goBack()">Back</button>
+    
     
   `
 })

@@ -31,7 +31,7 @@ var AboutComponent = (function () {
 AboutComponent = __decorate([
     core_1.Component({
         selector: 'about-app',
-        template: "\n    <!--angular2-material card and button-->\n    <div *ngIf=\"club\" class=\"\">\n      <md-card>\n        <md-card-header>\n            <md-card-title>{{club.name}}</md-card-title>\n        </md-card-header>\n        <!--<img md-card-image src=\"path/to/img.png\">-->\n        <md-card-content>\n            <pre>{{club.about}}</pre>\n        </md-card-content>\n      </md-card>\n    </div>\n    <button (click)=\"goBack()\">Back</button>\n    \n  "
+        template: "\n    <!--angular2-material card and button-->\n    <div *ngIf=\"club\" class=\"\">\n      <md-card>\n        <md-card-header>\n            <md-card-title>{{club.name}}</md-card-title>\n        </md-card-header>\n        <!--<img md-card-image src=\"path/to/img.png\">-->\n        <md-card-content>\n            <pre>{{club.about}}</pre>\n        </md-card-content>\n      </md-card>\n      <md-card-actions>\n        <button md-button (click)=\"goBack()\">Back</button>\n      </md-card-actions>\n    </div>\n    \n    \n  "
     }),
     __metadata("design:paramtypes", [club_service_1.ClubService,
         router_1.ActivatedRoute,
