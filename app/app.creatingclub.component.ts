@@ -52,27 +52,26 @@ export class CreatingClubComponent implements OnInit{
             CreatingClubComponent.prototype.imageInBase64 = e.target.result;
             $('#blah').attr('src', e.target.result);
           }
-          console.log(this.files[0])
           reader.readAsDataURL(this.files[0]);
        }
     })
   }
 
   createClub(){
-    if(this.club.name==null || this.club.about==null ||
-       this.club.name=="" || this.club.about==""){
+    if( this.club.name==null || this.club.about==null ||
+        this.club.name=="" || this.club.about==""){
       this.exceptionText = "enter all params";
     }else{
-      this.clubService.createClub(this.club.name,this.club.about);
+      this.clubService.createClub(this.club.name,this.club.about); 
       if(this.imageInBase64){
         var storageChildRef = this.storageRef.child('images/').child(this.club.name+'.jpg');
         storageChildRef.putString(this.imageInBase64, 'data_url').then(function(snapshot) {
+          CreatingClubComponent.prototype.imageInBase64 = null;
           console.log('UUploaded a data_url string!');
-          this.imageInBase64 = null;
-        });
+        })
       }
       setTimeout(() => { 
-        this.router.navigate(['/clubs']);
+       this.router.navigate(['/clubs']); 
       }, 1300);
     }
   }

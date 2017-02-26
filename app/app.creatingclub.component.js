@@ -35,7 +35,6 @@ var CreatingClubComponent = CreatingClubComponent_1 = (function () {
                     CreatingClubComponent_1.prototype.imageInBase64 = e.target.result;
                     $('#blah').attr('src', e.target.result);
                 };
-                console.log(this.files[0]);
                 reader.readAsDataURL(this.files[0]);
             }
         });
@@ -51,8 +50,8 @@ var CreatingClubComponent = CreatingClubComponent_1 = (function () {
             if (this.imageInBase64) {
                 var storageChildRef = this.storageRef.child('images/').child(this.club.name + '.jpg');
                 storageChildRef.putString(this.imageInBase64, 'data_url').then(function (snapshot) {
+                    CreatingClubComponent_1.prototype.imageInBase64 = null;
                     console.log('UUploaded a data_url string!');
-                    this.imageInBase64 = null;
                 });
             }
             setTimeout(function () {
