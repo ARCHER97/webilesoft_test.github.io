@@ -1,14 +1,17 @@
-import { Injectable } from '@angular/core';
-import { Club, CLUBS } from './club';
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
+import { Injectable, Inject } from '@angular/core';
+import { Club } from './club';
+import { AngularFire, FirebaseListObservable, FirebaseApp } from 'angularfire2';
 
 var root: any;
 var clubs: Array<Club> = new Array;
 var items
 @Injectable()
 export class ClubService{
-  
-  constructor(private af: AngularFire) { }
+  storage: any;
+
+  constructor(private af: AngularFire, @Inject(FirebaseApp) firebaseApp: any) { 
+    this.storage = firebaseApp.storage();
+  }
 
   getClubs(): FirebaseListObservable<any[]> {
     return this.af.database.list('/clubs');
@@ -19,15 +22,15 @@ export class ClubService{
     this.getClubs()
       .subscribe(clubs => {
           clubs.forEach(element=>{
-            if(element.$key===name)club = new Club(element.$key, element.about, element.image);
+            if(element.$key===name)club = new Club(element.$key, element.about);
           })
       });
     return club;
-  }
-  createClub(name: string, about: string, image: string){
+  }    
+
+  createClub(name: string, about: string){
     const itemObservable = this.af.database.object('/clubs/'+name);
-    var stringUpdate = {about: about, image: image};
-    console.log(JSON.stringify(stringUpdate));
+    var stringUpdate = {about: about};
     itemObservable.update(stringUpdate);
   }
 }

@@ -17,12 +17,14 @@ var club_1 = require("./club");
 var club_service_1 = require("./club.service");
 var common_1 = require("@angular/common");
 var angularfire2_1 = require("angularfire2");
+var router_1 = require("@angular/router");
 var CreatingClubComponent = CreatingClubComponent_1 = (function () {
-    function CreatingClubComponent(clubService, location, _elRef, firebaseApp) {
+    function CreatingClubComponent(clubService, location, _elRef, router, firebaseApp) {
         this.clubService = clubService;
         this.location = location;
         this._elRef = _elRef;
-        this.club = new club_1.Club('', '', '');
+        this.router = router;
+        this.club = new club_1.Club('', '');
         this.storageRef = firebaseApp.storage().ref();
     }
     CreatingClubComponent.prototype.ngOnInit = function () {
@@ -39,17 +41,23 @@ var CreatingClubComponent = CreatingClubComponent_1 = (function () {
         });
     };
     CreatingClubComponent.prototype.createClub = function () {
-        if (this.club.name == null || this.club.about == null || this.club.image == null ||
-            this.club.name == "" || this.club.about == "" || this.club.image == "") {
+        var _this = this;
+        if (this.club.name == null || this.club.about == null ||
+            this.club.name == "" || this.club.about == "") {
             this.exceptionText = "enter all params";
         }
         else {
-            this.clubService.createClub(this.club.name, this.club.about, this.club.image);
-            var storageChildRef = this.storageRef.child(this.club.name + '.jpg');
-            storageChildRef.putString(this.imageInBase64, 'data_url').then(function (snapshot) {
-                console.log('UUploaded a data_url string!');
-            });
-            this.location.back();
+            this.clubService.createClub(this.club.name, this.club.about);
+            if (this.imageInBase64) {
+                var storageChildRef = this.storageRef.child('images/').child(this.club.name + '.jpg');
+                storageChildRef.putString(this.imageInBase64, 'data_url').then(function (snapshot) {
+                    console.log('UUploaded a data_url string!');
+                    this.imageInBase64 = null;
+                });
+            }
+            setTimeout(function () {
+                _this.router.navigate(['/clubs']);
+            }, 1300);
         }
     };
     return CreatingClubComponent;
@@ -57,10 +65,11 @@ var CreatingClubComponent = CreatingClubComponent_1 = (function () {
 CreatingClubComponent = CreatingClubComponent_1 = __decorate([
     core_1.Component({
         selector: 'creating-club-app',
-        template: "\n    <md-card class=\"demo-card demo-basic\">\n      <md-card-content>\n        <div>\n          Creating club\n        </div>\n        <form enctype=\"multipart/form-data\" method=\"post\">\n          <md-input  placeholder=\"Name of club\" [(ngModel)]=\"club.name\" \n                [ngModelOptions]=\"{standalone: true}\" style=\"width: 100%\" ></md-input>\n          <md-input  placeholder=\"About\" [(ngModel)]=\"club.about\"\n                [ngModelOptions]=\"{standalone: true}\"  style=\"width:  100%\"></md-input>\n          <md-input  placeholder=\"Image\" [(ngModel)]=\"club.image\" \n                [ngModelOptions]=\"{standalone: true}\" style=\"width:  100%\"></md-input>\n          <div>\n            <input type='file' id=\"imgInp\" />\n            <img id=\"blah\" src=\"#\" alt=\"your image\" />\n          </div>\n        </form>\n      {{exceptionText}}  \n      </md-card-content>\n      <md-card-actions> \n        <button md-button (click)=\"createClub()\">Create</button>\n      </md-card-actions>\n    </md-card>  \n  "
+        template: "\n    <md-card class=\"demo-card demo-basic\">\n      <md-card-content>\n        <div>\n          Creating club\n        </div>\n        <form enctype=\"multipart/form-data\" method=\"post\">\n          <md-input  placeholder=\"Name of club\" [(ngModel)]=\"club.name\" \n                [ngModelOptions]=\"{standalone: true}\" style=\"width: 100%\" ></md-input>\n          <md-input  placeholder=\"About\" [(ngModel)]=\"club.about\"\n                [ngModelOptions]=\"{standalone: true}\"  style=\"width:  100%\"></md-input>\n          <div>\n            <div class=\"col-sm-6\"><input type='file' id=\"imgInp\" /></div>\n            <div class=\"col-sm-6\"><img id=\"blah\" src=\"#\" alt=\"your image\" style=\"width: 100%; height: 30%\" /></div>\n          </div>\n        </form>   \n      </md-card-content>\n      <md-card-actions> \n        <button md-button (click)=\"createClub()\">Create</button>\n      </md-card-actions>\n    </md-card>  \n    {{exceptionText}}\n  "
     }),
-    __param(3, core_1.Inject(angularfire2_1.FirebaseApp)),
-    __metadata("design:paramtypes", [club_service_1.ClubService, common_1.Location, core_1.ElementRef, Object])
+    __param(4, core_1.Inject(angularfire2_1.FirebaseApp)),
+    __metadata("design:paramtypes", [club_service_1.ClubService, common_1.Location, core_1.ElementRef,
+        router_1.Router, Object])
 ], CreatingClubComponent);
 exports.CreatingClubComponent = CreatingClubComponent;
 var CreatingClubComponent_1;

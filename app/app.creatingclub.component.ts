@@ -3,6 +3,7 @@ import { Club } from './club';
 import { ClubService } from './club.service';
 import { Location }    from '@angular/common';
 import { FirebaseApp } from 'angularfire2';
+import { Router } from '@angular/router';
 
 declare var jQuery: any;
 
@@ -19,19 +20,17 @@ declare var jQuery: any;
                 [ngModelOptions]="{standalone: true}" style="width: 100%" ></md-input>
           <md-input  placeholder="About" [(ngModel)]="club.about"
                 [ngModelOptions]="{standalone: true}"  style="width:  100%"></md-input>
-          <md-input  placeholder="Image" [(ngModel)]="club.image" 
-                [ngModelOptions]="{standalone: true}" style="width:  100%"></md-input>
           <div>
-            <input type='file' id="imgInp" />
-            <img id="blah" src="#" alt="your image" />
+            <div class="col-sm-6"><input type='file' id="imgInp" /></div>
+            <div class="col-sm-6"><img id="blah" src="#" alt="your image" style="width: 100%; height: 30%" /></div>
           </div>
-        </form>
-      {{exceptionText}}  
+        </form>   
       </md-card-content>
       <md-card-actions> 
         <button md-button (click)="createClub()">Create</button>
       </md-card-actions>
     </md-card>  
+    {{exceptionText}}
   `
 })
 export class CreatingClubComponent implements OnInit{
@@ -40,8 +39,9 @@ export class CreatingClubComponent implements OnInit{
   imageInBase64: any;
   storageRef: any;
   constructor(private clubService: ClubService, private location: Location, private _elRef: ElementRef,
+              private router: Router,
               @Inject(FirebaseApp) firebaseApp: any){
-    this.club = new Club('','','');
+    this.club = new Club('','');
     this.storageRef = firebaseApp.storage().ref();
   }
   ngOnInit(): any{
@@ -59,16 +59,21 @@ export class CreatingClubComponent implements OnInit{
   }
 
   createClub(){
-    if(this.club.name==null || this.club.about==null || this.club.image==null ||
-       this.club.name=="" || this.club.about=="" || this.club.image==""){
+    if(this.club.name==null || this.club.about==null ||
+       this.club.name=="" || this.club.about==""){
       this.exceptionText = "enter all params";
     }else{
-      this.clubService.createClub(this.club.name,this.club.about,this.club.image);
-      var storageChildRef = this.storageRef.child(this.club.name+'.jpg');
-      storageChildRef.putString(this.imageInBase64, 'data_url').then(function(snapshot) {
-        console.log('UUploaded a data_url string!');
-      });
-      this.location.back();
+      this.clubService.createClub(this.club.name,this.club.about);
+      if(this.imageInBase64){
+        var storageChildRef = this.storageRef.child('images/').child(this.club.name+'.jpg');
+        storageChildRef.putString(this.imageInBase64, 'data_url').then(function(snapshot) {
+          console.log('UUploaded a data_url string!');
+          this.imageInBase64 = null;
+        });
+      }
+      setTimeout(() => { 
+        this.router.navigate(['/clubs']);
+      }, 1300);
     }
   }
 }

@@ -8,6 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var club_1 = require("./club");
@@ -16,8 +19,9 @@ var root;
 var clubs = new Array;
 var items;
 var ClubService = (function () {
-    function ClubService(af) {
+    function ClubService(af, firebaseApp) {
         this.af = af;
+        this.storage = firebaseApp.storage();
     }
     ClubService.prototype.getClubs = function () {
         return this.af.database.list('/clubs');
@@ -28,22 +32,22 @@ var ClubService = (function () {
             .subscribe(function (clubs) {
             clubs.forEach(function (element) {
                 if (element.$key === name)
-                    club = new club_1.Club(element.$key, element.about, element.image);
+                    club = new club_1.Club(element.$key, element.about);
             });
         });
         return club;
     };
-    ClubService.prototype.createClub = function (name, about, image) {
+    ClubService.prototype.createClub = function (name, about) {
         var itemObservable = this.af.database.object('/clubs/' + name);
-        var stringUpdate = { about: about, image: image };
-        console.log(JSON.stringify(stringUpdate));
+        var stringUpdate = { about: about };
         itemObservable.update(stringUpdate);
     };
     return ClubService;
 }());
 ClubService = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [angularfire2_1.AngularFire])
+    __param(1, core_1.Inject(angularfire2_1.FirebaseApp)),
+    __metadata("design:paramtypes", [angularfire2_1.AngularFire, Object])
 ], ClubService);
 exports.ClubService = ClubService;
 //# sourceMappingURL=club.service.js.map
