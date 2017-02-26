@@ -39,9 +39,8 @@ export class CreatingClubComponent implements OnInit{
   exceptionText: any;
   imageInBase64: any;
   storageRef: any;
-  constructor(private clubService: ClubService, private location: Location, 
-              @Inject(FirebaseApp) firebaseApp: any,
-              private _elRef: ElementRef){
+  constructor(private clubService: ClubService, private location: Location, private _elRef: ElementRef,
+              @Inject(FirebaseApp) firebaseApp: any){
     this.club = new Club('','','');
     this.storageRef = firebaseApp.storage().ref();
   }
@@ -51,24 +50,14 @@ export class CreatingClubComponent implements OnInit{
           var reader = new FileReader();
           reader.onload = function (e: any) {
             CreatingClubComponent.prototype.imageInBase64 = e.target.result;
-            CreatingClubComponent.prototype.readURL(this);
-            //$('#blah').attr('src', e.target.result);
+            $('#blah').attr('src', e.target.result);
           }
           console.log(this.files[0])
           reader.readAsDataURL(this.files[0]);
        }
     })
   }
-  readURL(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e: any) {
-            jQuery(CreatingClubComponent.prototype._elRef.nativeElement)
-              .find('#blah').attr('src', e.target.result);
-        }
-        reader.readAsDataURL(input.files[0]);
-    }
-  }
+
   createClub(){
     if(this.club.name==null || this.club.about==null || this.club.image==null ||
        this.club.name=="" || this.club.about=="" || this.club.image==""){
