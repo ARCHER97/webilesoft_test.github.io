@@ -17,45 +17,62 @@ var club_1 = require("./club");
 var club_service_1 = require("./club.service");
 var common_1 = require("@angular/common");
 var angularfire2_1 = require("angularfire2");
-var CreatingClubComponent = (function () {
-    function CreatingClubComponent(clubService, location, firebaseApp) {
+var CreatingClubComponent = CreatingClubComponent_1 = (function () {
+    function CreatingClubComponent(clubService, location, firebaseApp, _elRef) {
         this.clubService = clubService;
         this.location = location;
+        this._elRef = _elRef;
         this.club = new club_1.Club('', '', '');
-        // const storageRef = 
-        // storageRef.getDownloadURL().then(url => this.image = url);
-        // Create a root reference
-        var storageRef = firebaseApp.storage().ref();
-        // Create a reference to 'mountains.jpg'
-        var mountainsRef = storageRef.child('mountains.jpg');
-        // Create a reference to 'images/mountains.jpg'
-        var mountainImagesRef = storageRef.child('images/mountains.jpg');
-        // While the file names are the same, the references point to different files
-        mountainsRef.name === mountainImagesRef.name; // true
-        mountainsRef.fullPath === mountainImagesRef.fullPath; // false
+        this.storageRef = firebaseApp.storage().ref();
     }
+    CreatingClubComponent.prototype.ngOnInit = function () {
+        jQuery(this._elRef.nativeElement).find('#imgInp').change(function () {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    CreatingClubComponent_1.prototype.imageInBase64 = e.target.result;
+                    CreatingClubComponent_1.prototype.readURL(this);
+                    //$('#blah').attr('src', e.target.result);
+                };
+                console.log(this.files[0]);
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    };
+    CreatingClubComponent.prototype.readURL = function (input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                jQuery(CreatingClubComponent_1.prototype._elRef.nativeElement)
+                    .find('#blah').attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    };
     CreatingClubComponent.prototype.createClub = function () {
-        console.log(this.club.name + " " + this.club.about + " " + this.club.image);
-        this.clubService.createClub(this.club.name, this.club.about, this.club.image);
-        this.location.back();
-    };
-    CreatingClubComponent.prototype.getName = function (str) {
-        console.log();
-    };
-    CreatingClubComponent.prototype.onChange = function (event) {
-        console.log('ngModelChange do');
-        var files = event.srcElement.files;
-        console.log(files);
+        if (this.club.name == null || this.club.about == null || this.club.image == null ||
+            this.club.name == "" || this.club.about == "" || this.club.image == "") {
+            this.exceptionText = "enter all params";
+        }
+        else {
+            this.clubService.createClub(this.club.name, this.club.about, this.club.image);
+            var storageChildRef = this.storageRef.child(this.club.name + '.jpg');
+            storageChildRef.putString(this.imageInBase64, 'data_url').then(function (snapshot) {
+                console.log('UUploaded a data_url string!');
+            });
+            this.location.back();
+        }
     };
     return CreatingClubComponent;
 }());
-CreatingClubComponent = __decorate([
+CreatingClubComponent = CreatingClubComponent_1 = __decorate([
     core_1.Component({
         selector: 'creating-club-app',
-        template: "\n    <md-card class=\"demo-card demo-basic\">\n      <md-card-content>\n        <div>\n          Creating club\n        </div>\n        <form>\n          <md-input  placeholder=\"Name of club\" [(ngModel)]=\"club.name\" \n                [ngModelOptions]=\"{standalone: true}\" style=\"width: 100%\" ></md-input>\n          <md-input  placeholder=\"About\" [(ngModel)]=\"club.about\"\n                [ngModelOptions]=\"{standalone: true}\"  style=\"width:  100%\"></md-input>\n          <md-input  placeholder=\"Image\" [(ngModel)]=\"club.image\" \n                [ngModelOptions]=\"{standalone: true}\" style=\"width:  100%\"></md-input>\n          <div>\n             <input id=\"upload\" type=\"file\" name=\"upload\" (change)=\"getName(this.files)\"/>\n          </div>\n        </form>\n        \n      </md-card-content>\n      <md-card-actions> \n        <button md-button (click)=\"createClub()\">Create</button>\n      </md-card-actions>\n    </md-card>\n  "
+        template: "\n    <md-card class=\"demo-card demo-basic\">\n      <md-card-content>\n        <div>\n          Creating club\n        </div>\n        <form enctype=\"multipart/form-data\" method=\"post\">\n          <md-input  placeholder=\"Name of club\" [(ngModel)]=\"club.name\" \n                [ngModelOptions]=\"{standalone: true}\" style=\"width: 100%\" ></md-input>\n          <md-input  placeholder=\"About\" [(ngModel)]=\"club.about\"\n                [ngModelOptions]=\"{standalone: true}\"  style=\"width:  100%\"></md-input>\n          <md-input  placeholder=\"Image\" [(ngModel)]=\"club.image\" \n                [ngModelOptions]=\"{standalone: true}\" style=\"width:  100%\"></md-input>\n          <div>\n            <input type='file' id=\"imgInp\" />\n            <img id=\"blah\" src=\"#\" alt=\"your image\" />\n          </div>\n        </form>\n      {{exceptionText}}  \n      </md-card-content>\n      <md-card-actions> \n        <button md-button (click)=\"createClub()\">Create</button>\n      </md-card-actions>\n    </md-card>  \n  "
     }),
     __param(2, core_1.Inject(angularfire2_1.FirebaseApp)),
-    __metadata("design:paramtypes", [club_service_1.ClubService, common_1.Location, Object])
+    __metadata("design:paramtypes", [club_service_1.ClubService, common_1.Location, Object, core_1.ElementRef])
 ], CreatingClubComponent);
 exports.CreatingClubComponent = CreatingClubComponent;
+var CreatingClubComponent_1;
 //# sourceMappingURL=app.creatingclub.component.js.map

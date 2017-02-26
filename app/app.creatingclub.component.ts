@@ -1,9 +1,10 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ElementRef, OnInit } from '@angular/core';
 import { Club } from './club';
 import { ClubService } from './club.service';
 import { Location }    from '@angular/common';
-
 import { FirebaseApp } from 'angularfire2';
+
+declare var jQuery: any;
 
 @Component({
   selector: 'creating-club-app',
@@ -13,7 +14,7 @@ import { FirebaseApp } from 'angularfire2';
         <div>
           Creating club
         </div>
-        <form>
+        <form enctype="multipart/form-data" method="post">
           <md-input  placeholder="Name of club" [(ngModel)]="club.name" 
                 [ngModelOptions]="{standalone: true}" style="width: 100%" ></md-input>
           <md-input  placeholder="About" [(ngModel)]="club.about"
@@ -21,54 +22,64 @@ import { FirebaseApp } from 'angularfire2';
           <md-input  placeholder="Image" [(ngModel)]="club.image" 
                 [ngModelOptions]="{standalone: true}" style="width:  100%"></md-input>
           <div>
-             <input id="upload" type="file" name="upload" (change)="getName(this.files)"/>
+            <input type='file' id="imgInp" />
+            <img id="blah" src="#" alt="your image" />
           </div>
         </form>
-        
+      {{exceptionText}}  
       </md-card-content>
       <md-card-actions> 
         <button md-button (click)="createClub()">Create</button>
       </md-card-actions>
-    </md-card>
+    </md-card>  
   `
 })
-export class CreatingClubComponent {
+export class CreatingClubComponent implements OnInit{
   club: Club;
-  filename: any;
-  image: string;
+  exceptionText: any;
+  imageInBase64: any;
+  storageRef: any;
   constructor(private clubService: ClubService, private location: Location, 
-              @Inject(FirebaseApp) firebaseApp: any){
+              @Inject(FirebaseApp) firebaseApp: any,
+              private _elRef: ElementRef){
     this.club = new Club('','','');
-
-    // const storageRef = 
-    // storageRef.getDownloadURL().then(url => this.image = url);
-
-        // Create a root reference
-    var storageRef = firebaseApp.storage().ref();
-
-    // Create a reference to 'mountains.jpg'
-    var mountainsRef = storageRef.child('mountains.jpg');
-
-    // Create a reference to 'images/mountains.jpg'
-    var mountainImagesRef = storageRef.child('images/mountains.jpg');
-
-    // While the file names are the same, the references point to different files
-    mountainsRef.name === mountainImagesRef.name            // true
-    mountainsRef.fullPath === mountainImagesRef.fullPath    // false
+    this.storageRef = firebaseApp.storage().ref();
+  }
+  ngOnInit(): any{
+    jQuery(this._elRef.nativeElement).find('#imgInp').change(function(){
+       if (this.files && this.files[0]) {
+          var reader = new FileReader();
+          reader.onload = function (e: any) {
+            CreatingClubComponent.prototype.imageInBase64 = e.target.result;
+            CreatingClubComponent.prototype.readURL(this);
+            //$('#blah').attr('src', e.target.result);
+          }
+          console.log(this.files[0])
+          reader.readAsDataURL(this.files[0]);
+       }
+    })
+  }
+  readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e: any) {
+            jQuery(CreatingClubComponent.prototype._elRef.nativeElement)
+              .find('#blah').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
   }
   createClub(){
-    console.log(this.club.name+" "+this.club.about+" "+this.club.image);
-    this.clubService.createClub(this.club.name,this.club.about,this.club.image);
-    this.location.back();
-  }
-  getName (str){
-    console.log()
-
-  }
-  onChange(event) {
-    console.log('ngModelChange do');
-    var files = event.srcElement.files;
-    console.log(files);
+    if(this.club.name==null || this.club.about==null || this.club.image==null ||
+       this.club.name=="" || this.club.about=="" || this.club.image==""){
+      this.exceptionText = "enter all params";
+    }else{
+      this.clubService.createClub(this.club.name,this.club.about,this.club.image);
+      var storageChildRef = this.storageRef.child(this.club.name+'.jpg');
+      storageChildRef.putString(this.imageInBase64, 'data_url').then(function(snapshot) {
+        console.log('UUploaded a data_url string!');
+      });
+      this.location.back();
+    }
   }
 }
-
