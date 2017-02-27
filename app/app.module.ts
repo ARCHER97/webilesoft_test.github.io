@@ -2,6 +2,7 @@ import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
 import { RouterModule, Routes }   from '@angular/router';
+import {APP_BASE_HREF} from '@angular/common';
 
 import { AppRoutingModule }     from './app-routing.module';
 
@@ -38,7 +39,8 @@ import { ClubService }         from './club.service';
     CreatingClubComponent
   ],
   providers: [
-    ClubService
+    ClubService,
+    {provide: APP_BASE_HREF, useValue :  '/' }
   ],
   bootstrap:    [ AppComponent ]
 })
